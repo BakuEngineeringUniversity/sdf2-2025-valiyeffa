@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevToys - Generators</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+     <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+    <div class="container mx-auto py-6 px-4">
+        <h1 class="text-2xl font-bold mb-6">Generator Tools</h1>
+
+        <!-- Tabs navigation -->
+        <div class="border-b border-gray-200 dark:border-gray-700">
+            <ul class="flex flex-wrap -mb-px" id="tabs">
+                <li class="mr-2">
+                    <a href="#"
+                        class="tab-link inline-block py-4 px-4 text-center border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 active"
+                        data-tab="uuid-generator">
+                        <i class="fas fa-key mr-2"></i>UUID Generator
+                    </a>
+                </li>
+                <li class="mr-2">
+                    <a href="#"
+                        class="tab-link inline-block py-4 px-4 text-center border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                        data-tab="lorem-ipsum">
+                        <i class="fas fa-paragraph mr-2"></i>Lorem Ipsum
+                    </a>
+                </li>
+                <li class="mr-2">
+                    <a href="#"
+                        class="tab-link inline-block py-4 px-4 text-center border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                        data-tab="hash-generator">
+                        <i class="fas fa-hashtag mr-2"></i>Hash Generator
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Tabs content -->
+        <div class="py-6">
+            <!-- UUID Generator -->
+            <div id="uuid-generator" class="tab-content active">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold mb-4">UUID Generator</h2>
+                    <p class="text-gray-600 dark:text-gray-400 mb-6">Generate random UUIDs in different versions.</p>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">UUID
+                            Version</label>
+                        <div class="flex space-x-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="uuid-version" value="v1"
+                                    class="form-radio h-4 w-4 text-blue-600">
+                                <span class="ml-2">Version 1 (time-based)</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="uuid-version" value="v4"
+                                    class="form-radio h-4 w-4 text-blue-600" checked>
+                                <span class="ml-2">Version 4 (random)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">UUID
+                            Casing</label>
+                        <div class="flex space-x-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="uuid-case" value="lower"
+                                    class="form-radio h-4 w-4 text-blue-600" checked>
+                                <span class="ml-2">Lowercase</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="uuid-case" value="upper"
+                                    class="form-radio h-4 w-4 text-blue-600">
+                                <span class="ml-2">Uppercase</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">UUID
+                            Format</label>
+                        <div class="flex space-x-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="uuid-format" value="standard"
+                                    class="form-radio h-4 w-4 text-blue-600" checked>
+                                <span class="ml-2">Standard (with hyphens)</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="uuid-format" value="nohyphen"
+                                    class="form-radio h-4 w-4 text-blue-600">
+                                <span class="ml-2">Without hyphens</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Number of
+                            UUIDs</label>
+                        <input type="number" min="1" max="100" value="1" id="uuid-count"
+                            class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:w-64 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md">
+                    </div>
+
+                    <div class="flex space-x-4 mb-6">
+                        <button id="generate-uuid"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Generate UUID(s)
+                        </button>
+                        <button id="copy-all-uuids"
+                            class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                            Copy All
+                        </button>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Generated
+                            UUIDs</label>
+                        <div
+                            class="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md p-4 h-64 overflow-y-auto">
+                            <ul id="uuid-results" class="space-y-2">
+                                <!-- UUIDs will be displayed here -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lorem Ipsum Generator -->
+            <div id="lorem-ipsum" class="tab-content">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold mb-4">Lorem Ipsum Generator</h2>
+                    <p class="text-gray-600 dark:text-gray-400 mb-6">Generate placeholder text for mockups and designs.
+                    </p>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Output
+                            Type</label>
+                        <div class="flex space-x-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="lorem-type" value="paragraphs"
+                                    class="form-radio h-4 w-4 text-blue-600" checked>
+                                <span class="ml-2">Paragraphs</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="lorem-type" value="sentences"
+                                    class="form-radio h-4 w-4 text-blue-600">
+                                <span class="ml-2">Sentences</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="lorem-type" value="words"
+                                    class="form-radio h-4 w-4 text-blue-600">
+                                <span class="ml-2">Words</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Amount</label>
+                        <input type="number" min="1" max="50" value="3" id="lorem-count"
+                            class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:w-64 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md">
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Options</label>
+                        <div class="flex flex-wrap space-x-4">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" id="start-with-lorem" class="form-checkbox h-4 w-4 text-blue-600"
+                                    checked>
+                                <span class="ml-2">Start with "Lorem ipsum dolor sit amet..."</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-4 mb-6">
+                        <button id="generate-lorem"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Generate Text
+                        </button>
+                        <button id="copy-lorem"
+                            class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                            Copy Text
+                        </button>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Generated
+                            Text</label>
+                        <div class="relative">
+                            <textarea id="lorem-result"
+                                class="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md p-4 w-full h-64 focus:ring-blue-500 focus:border-blue-500"
+                                readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hash Generator -->
+            <div id="hash-generator" class="tab-content">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold mb-4">Hash Generator</h2>
+                    <p class="text-gray-600 dark:text-gray-400 mb-6">Generate various hash values from input text.</p>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Hash
+                            Algorithms</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="hash-algo" value="md5"
+                                    class="form-checkbox h-4 w-4 text-blue-600" checked>
+                                <span class="ml-2">MD5</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="hash-algo" value="sha1"
+                                    class="form-checkbox h-4 w-4 text-blue-600" checked>
+                                <span class="ml-2">SHA-1</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="hash-algo" value="sha256"
+                                    class="form-checkbox h-4 w-4 text-blue-600" checked>
+                                <span class="ml-2">SHA-256</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" name="hash-algo" value="sha512"
+                                    class="form-checkbox h-4 w-4 text-blue-600">
+                                <span class="ml-2">SHA-512</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Input
+                            Text</label>
+                        <textarea id="hash-input"
+                            class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md h-32"
+                            placeholder="Enter text to hash..."></textarea>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Input
+                            Type</label>
+                        <div class="flex space-x-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="hash-input-type" value="text"
+                                    class="form-radio h-4 w-4 text-blue-600" checked>
+                                <span class="ml-2">Text</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="hash-input-type" value="file"
+                                    class="form-radio h-4 w-4 text-blue-600">
+                                <span class="ml-2">File</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="file-input-container" class="mb-6 hidden">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Select
+                            File</label>
+                        <input type="file" id="hash-file-input" class="block w-full text-sm text-gray-500 dark:text-gray-400
+                            file:mr-4 file:py-2 file:px-4
+                            file:rounded-md file:border-0
+                            file:text-sm file:font-medium
+                            file:bg-blue-50 file:text-blue-700
+                            dark:file:bg-blue-900 dark:file:text-blue-200
+                            hover:file:bg-blue-100 dark:hover:file:bg-blue-800">
+                    </div>
+
+                    <div class="flex space-x-4 mb-6">
+                        <button id="generate-hash"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Generate Hash
+                        </button>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">Hash Results</h3>
+                        <div class="space-y-4" id="hash-results">
+                            <!-- Hash results will be displayed here -->
+                            <div class="mb-4 hidden" id="md5-result">
+                                <label
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">MD5</label>
+                                <div class="relative">
+                                    <input type="text" readonly
+                                        class="hash-output bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md py-2 px-4 pr-10 w-full focus:ring-blue-500 focus:border-blue-500">
+                                    <button
+                                        class="copy-hash absolute right-2 top-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mb-4 hidden" id="sha1-result">
+                                <label
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">SHA-1</label>
+                                <div class="relative">
+                                    <input type="text" readonly
+                                        class="hash-output bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md py-2 px-4 pr-10 w-full focus:ring-blue-500 focus:border-blue-500">
+                                    <button
+                                        class="copy-hash absolute right-2 top-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mb-4 hidden" id="sha256-result">
+                                <label
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">SHA-256</label>
+                                <div class="relative">
+                                    <input type="text" readonly
+                                        class="hash-output bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md py-2 px-4 pr-10 w-full focus:ring-blue-500 focus:border-blue-500">
+                                    <button
+                                        class="copy-hash absolute right-2 top-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mb-4 hidden" id="sha512-result">
+                                <label
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">SHA-512</label>
+                                <div class="relative">
+                                    <input type="text" readonly
+                                        class="hash-output bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md py-2 px-4 pr-10 w-full focus:ring-blue-500 focus:border-blue-500">
+                                    <button
+                                        class="copy-hash absolute right-2 top-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the required JavaScript libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.tab-link').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab-link').forEach(t => {
+                    t.classList.remove('active', 'text-blue-600', 'border-blue-600');
+                    t.classList.add('hover:text-gray-600', 'hover:border-gray-300');
+                });
+
+                // Add active class to clicked tab
+                tab.classList.add('active', 'text-blue-600', 'border-blue-600');
+                tab.classList.remove('hover:text-gray-600', 'hover:border-gray-300');
+
+                // Hide all tab contents
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+
+                // Show the selected tab content
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // UUID Generator functionality
+        document.getElementById('generate-uuid').addEventListener('click', () => {
+            const count = parseInt(document.getElementById('uuid-count').value) || 1;
+            const version = document.querySelector('input[name="uuid-version"]:checked').value;
+            const casing = document.querySelector('input[name="uuid-case"]:checked').value;
+            const format = document.querySelector('input[name="uuid-format"]:checked').value;
+
+            const resultsList = document.getElementById('uuid-results');
+            resultsList.innerHTML = '';
+
+            for (let i = 0; i < count; i++) {
+                let generatedUuid = version === 'v4' ? uuidv4() : uuidv1();
+
+                if (casing === 'upper') {
+                    generatedUuid = generatedUuid.toUpperCase();
+                }
+
+                if (format === 'nohyphen') {
+                    generatedUuid = generatedUuid.replace(/-/g, '');
+                }
+
+                const listItem = document.createElement('li');
+                listItem.className = 'flex justify-between items-center';
+                listItem.innerHTML = `
+                    <span class="font-mono">${generatedUuid}</span>
+                    <button class="copy-uuid text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                `;
+                resultsList.appendChild(listItem);
+            }
+
+            // Add copy functionality to individual UUID copy buttons
+            document.querySelectorAll('.copy-uuid').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const uuid = e.currentTarget.previousElementSibling.textContent;
+                    copyToClipboard(uuid);
+                    showCopySuccess(e.currentTarget);
+                });
+            });
+        });
+
+        // Copy all UUIDs
+        document.getElementById('copy-all-uuids').addEventListener('click', () => {
+            const uuids = Array.from(document.querySelectorAll('#uuid-results li span'))
+                .map(span => span.textContent)
+                .join('\n');
+
+            if (uuids) {
+                copyToClipboard(uuids);
+                alert('All UUIDs copied to clipboard!');
+            }
+        });
+
+        // Initialize UUID generator with one UUID when page loads
+        document.getElementById('generate-uuid').click();
+
+        // Lorem Ipsum Generator functionality
+        document.getElementById('generate-lorem').addEventListener('click', () => {
+            const count = parseInt(document.getElementById('lorem-count').value) || 3;
+            const type = document.querySelector('input[name="lorem-type"]:checked').value;
+            const startWithLorem = document.getElementById('start-with-lorem').checked;
+
+            let result = '';
+
+            // Common lorem ipsum text
+            const loremStart = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ";
+            const loremWords = [
+                "Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit",
+                "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore",
+                "magna", "aliqua", "Ut", "enim", "ad", "minim", "veniam", "quis", "nostrud",
+                "exercitation", "ullamco", "laboris", "nisi", "ut", "aliquip", "ex", "ea", "commodo",
+                "consequat", "Duis", "aute", "irure", "dolor", "in", "reprehenderit", "in",
+                "voluptate", "velit", "esse", "cillum", "dolore", "eu", "fugiat", "nulla",
+                "pariatur", "Excepteur", "sint", "occaecat", "cupidatat", "non", "proident",
+                "sunt", "in", "culpa", "qui", "officia", "deserunt", "mollit", "anim", "id", "est",
+                "laborum", "sed", "ut", "perspiciatis", "unde", "omnis", "iste", "natus", "error",
+                "sit", "voluptatem", "accusantium", "doloremque", "laudantium", "totam", "rem",
+                "aperiam", "eaque", "ipsa", "quae", "ab", "illo", "inventore", "veritatis", "et",
+                "quasi", "architecto", "beatae", "vitae", "dicta", "sunt", "explicabo"
+            ];
+
+            if (type === 'paragraphs') {
+                for (let i = 0; i < count; i++) {
+                    const sentencesCount = 4 + Math.floor(Math.random() * 4); // 4-7 sentences per paragraph
+                    let paragraph = '';
+
+                    for (let j = 0; j < sentencesCount; j++) {
+                        if (i === 0 && j === 0 && startWithLorem) {
+                            paragraph += loremStart;
+                        } else {
+                            const wordsInSentence = 5 + Math.floor(Math.random() * 15); // 5-20 words per sentence
+                            let sentence = '';
+
+                            for (let k = 0; k < wordsInSentence; k++) {
+                                const randomWord = loremWords[Math.floor(Math.random() * loremWords.length)];
+                                sentence += k === 0 ? randomWord : ' ' + randomWord.toLowerCase();
+                            }
+
+                            paragraph += sentence + '. ';
+                        }
+                    }
+
+                    result += paragraph + '\n\n';
+                }
+            } else if (type === 'sentences') {
+                for (let i = 0; i < count; i++) {
+                    if (i === 0 && startWithLorem) {
+                        result += loremStart;
+                    } else {
+                        const wordsInSentence = 5 + Math.floor(Math.random() * 15); // 5-20 words per sentence
+                        let sentence = '';
+
+                        for (let j = 0; j < wordsInSentence; j++) {
+                            const randomWord = loremWords[Math.floor(Math.random() * loremWords.length)];
+                            sentence += j === 0 ? randomWord : ' ' + randomWord.toLowerCase();
+                        }
+
+                        result += sentence + '. ';
+                    }
+                }
+            } else if (type === 'words') {
+                const wordsArray = [];
+
+                if (startWithLorem) {
+                    const loremStartWords = loremStart.trim().split(' ');
+                    const remainingCount = count - Math.min(count, loremStartWords.length);
+
+                    wordsArray.push(...loremStartWords.slice(0, count));
+
+                    for (let i = 0; i < remainingCount; i++) {
+                        wordsArray.push(loremWords[Math.floor(Math.random() * loremWords.length)].toLowerCase());
+                    }
+                } else {
+                    for (let i = 0; i < count; i++) {
+                        const randomWord = loremWords[Math.floor(Math.random() * loremWords.length)];
+                        wordsArray.push(i === 0 ? randomWord : randomWord.toLowerCase());
+                    }
+                }
+
+                result = wordsArray.join(' ');
+            }
+
+            document.getElementById('lorem-result').value = result.trim();
+        });
+
+        // Copy Lorem Ipsum text
+        document.getElementById('copy-lorem').addEventListener('click', () => {
+            const text = document.getElementById('lorem-result').value;
+            if (text) {
+                copyToClipboard(text);
+                alert('Lorem Ipsum text copied to clipboard!');
+            }
+        });
+
+        // Initialize Lorem Ipsum generator when page loads
+        document.getElementById('generate-lorem').click();
+
+        // Hash Generator functionality
+        document.querySelectorAll('input[name="hash-input-type"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                const fileInputContainer = document.getElementById('file-input-container');
+                const textInputContainer = document.getElementById('hash-input').parentElement;
+
+                if (radio.value === 'file') {
+                    fileInputContainer.classList.remove('hidden');
+                    textInputContainer.classList.add('hidden');
+                } else {
+                    fileInputContainer.classList.add('hidden');
+                    textInputContainer.classList.remove('hidden');
+                }
+            });
+        });
+
+        document.getElementById('generate-hash').addEventListener('click', () => {
+            const inputType = document.querySelector('input[name="hash-input-type"]:checked').value;
+            let input = '';
+
+            if (inputType === 'text') {
+                input = document.getElementById('hash-input').value;
+                generateHashes(input);
+            } else {
+                const fileInput = document.getElementById('hash-file-input');
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        const fileContent = e.target.result;
+                        generateHashes(fileContent);
+                    };
+
+                    reader.readAsText(file);
+                } else {
+                    alert('Please select a file to hash');
+                }
+            }
+        });
+
+        function generateHashes(input) {
+            const algorithms = {
+                'md5': true,
+                'sha1': true,
+                'sha256': true,
+                'sha512': false
+            };
+
+            // Update algorithm selections based on checkboxes
+            document.querySelectorAll('input[name="hash-algo"]').forEach(checkbox => {
+                algorithms[checkbox.value] = checkbox.checked;
+            });
+
+            // Generate and display hashes
+            if (algorithms.md5) {
+                const md5Hash = CryptoJS.MD5(input).toString();
+                document.querySelector('#md5-result').classList.remove('hidden');
+                document.querySelector('#md5-result input').value = md5Hash;
+            } else {
+                document.querySelector('#md5-result').classList.add('hidden');
+            }
+
+            if (algorithms.sha1) {
+                const sha1Hash = CryptoJS.SHA1(input).toString();
+                document.querySelector('#sha1-result').classList.remove('hidden');
+                document.querySelector('#sha1-result input').value = sha1Hash;
+            } else {
+                document.querySelector('#sha1-result').classList.add('hidden');
+            }
+
+            if (algorithms.sha256) {
+                const sha256Hash = CryptoJS.SHA256(input).toString();
+                document.querySelector('#sha256-result').classList.remove('hidden');
+                document.querySelector('#sha256-result input').value = sha256Hash;
+            } else {
+                document.querySelector('#sha256-result').classList.add('hidden');
+            }
+
+            if (algorithms.sha512) {
+                const sha512Hash = CryptoJS.SHA512(input).toString();
+                document.querySelector('#sha512-result').classList.remove('hidden');
+                document.querySelector('#sha512-result input').value = sha512Hash;
+            } else {
+                document.querySelector('#sha512-result').classList.add('hidden');
+            }
+        }
+
+        // Add copy functionality to hash result copy buttons
+        document.querySelectorAll('.copy-hash').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const hashValue = e.currentTarget.previousElementSibling.value;
+                copyToClipboard(hashValue);
+                showCopySuccess(e.currentTarget);
+            });
+        });
+
+        // Utility function to copy to clipboard
+        function copyToClipboard(text) {
+            // Create a temporary textarea element
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'absolute';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+
+            // Select the text and copy it
+            textarea.select();
+            document.execCommand('copy');
+
+            // Remove the textarea
+            document.body.removeChild(textarea);
+        }
+
+        // Show success feedback when copying
+        function showCopySuccess(button) {
+            const originalIcon = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check"></i>';
+
+            setTimeout(() => {
+                button.innerHTML = originalIcon;
+            }, 1000);
+        }
+
+        // Helper functions for UUID
+        function uuidv4() {
+            try {
+                return uuid.v4();
+            } catch (e) {
+                // Fallback implementation if uuid library fails
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                    const r = Math.random() * 16 | 0;
+                    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                    return v.toString(16);
+                });
+            }
+        }
+
+        function uuidv1() {
+            try {
+                return uuid.v1();
+            } catch (e) {
+                // Fallback to v4 if v1 is not available
+                return uuidv4();
+            }
+        }
+
+        // Check for dark mode preference and apply it
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Listen for messages from parent window for tab switching
+        window.addEventListener('message', function (event) {
+            if (event.data && event.data.action === 'switchTab') {
+                const tabId = event.data.tab;
+                const tabLink = document.querySelector(`.tab-link[data-tab="${tabId}"]`);
+                if (tabLink) {
+                    tabLink.click();
+                }
+            }
+        }, false);
+    </script>
+</body>
+
+</html>
