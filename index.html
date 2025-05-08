@@ -4,416 +4,465 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevPro</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>DevToys Electron</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="output.css">
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        }
-
-        .tool-card {
-            transition: all 0.2s ease;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+            overflow: hidden;
         }
 
         .tool-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .gradient-bg {
-            background: linear-gradient(135deg, #2b4985 0%, #2d56a3 50%, #1a3366 100%);
+            transition: transform 0.2s ease-in-out;
         }
     </style>
 </head>
 
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex h-screen overflow-hidden">
-    <!-- Sidebar -->
-    <div class="w-72 bg-white dark:bg-gray-800 shadow-lg flex flex-col z-10">
-        <!-- Header -->
-        <div class="flex items-center p-4 border-b border-gray-200 dark:border-gray-700">
-            <div class="flex items-center space-x-3">
-                <div class="w-8 h-8 flex items-center justify-center rounded-md bg-blue-600 text-white">
-                    <i class="fas fa-toolbox"></i>
-                </div>
-                <h1 class="text-xl font-bold">DevPro</h1>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white dark:bg-gray-800 shadow-md">
+            <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                <h1 class="text-xl font-bold">DevToys</h1>
             </div>
-            <div class="ml-auto">
-                <button class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+
+            <!-- Tool Categories -->
+            <nav class="mt-4">
+                <div class="px-4 py-2">
+                    <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Text
+                        Tools</h2>
+                    <ul class="mt-2">
+                        <li class="tool-item">
+                            <a href="#text-encoder"
+                                class="block px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fas fa-font mr-2"></i> Text Encoder/Decoder
+                            </a>
+                        </li>
+                        <li class="tool-item">
+                            <a href="#json-formatter"
+                                class="block px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fas fa-code mr-2"></i> JSON Formatter
+                            </a>
+                        </li>
+                        <li class="tool-item">
+                            <a href="#markdown-preview"
+                                class="block px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fab fa-markdown mr-2"></i> Markdown Preview
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="px-4 py-2 mt-4">
+                    <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Generators</h2>
+                    <ul class="mt-2">
+                        <li class="tool-item">
+                            <a href="#uuid-generator"
+                                class="block px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fas fa-key mr-2"></i> UUID Generator
+                            </a>
+                        </li>
+                        <li class="tool-item">
+                            <a href="#lorem-ipsum"
+                                class="block px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fas fa-paragraph mr-2"></i> Lorem Ipsum
+                            </a>
+                        </li>
+                        <li class="tool-item">
+                            <a href="#hash-generator"
+                                class="block px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fas fa-hashtag mr-2"></i> Hash Generator
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="px-4 py-2 mt-4">
+                    <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Converters</h2>
+                    <ul class="mt-2">
+                        <li class="tool-item">
+                            <a href="#number-base"
+                                class="block px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fas fa-calculator mr-2"></i> Number Base Converter
+                            </a>
+                        </li>
+                        <li class="tool-item">
+                            <a href="#csv-json"
+                                class="block px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fas fa-exchange-alt mr-2"></i> CSV ⟷ JSON
+                            </a>
+                        </li>
+                        <li class="tool-item">
+                            <a href="#img-base64"
+                                class="block px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fas fa-image mr-2"></i> Image to Base64
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="px-4 py-2 mt-4">
+                    <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Formatters</h2>
+                    <ul class="mt-2">
+                        <li class="tool-item">
+                            <a href="#code-beautifier"
+                                class="block px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fas fa-code mr-2"></i> Code Beautifier
+                            </a>
+                        </li>
+                        <li class="tool-item">
+                            <a href="#date-formatter"
+                                class="block px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fas fa-calendar-alt mr-2"></i> Date Formatter
+                            </a>
+                        </li>
+                        <li class="tool-item">
+                            <a href="#color-converter"
+                                class="block px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fas fa-palette mr-2"></i> Color Converter
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="px-4 py-2 mt-4">
+                    <h2 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Validators</h2>
+                    <ul class="mt-2">
+                        <li class="tool-item">
+                            <a href="#email-validator"
+                                class="block px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fas fa-envelope mr-2"></i> Email Validator
+                            </a>
+                        </li>
+                        <li class="tool-item">
+                            <a href="#url-validator"
+                                class="block px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fas fa-link mr-2"></i> URL Validator
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </div>
 
-        <!-- Search bar -->
-        <div class="p-4">
-            <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
-                <div class="pl-3 text-gray-400">
-                    <i class="fas fa-search"></i>
-                </div>
-                <input type="text" placeholder="Search tools..."
-                    class="bg-transparent w-full p-2 focus:outline-none text-sm border-none">
-            </div>
-        </div>
+        <!-- Main content area -->
+        <div class="flex-1 overflow-y-auto">
+            <!-- Home screen with tool cards -->
+            <div id="home-screen" class="p-6">
+                <h1 class="text-2xl font-bold mb-6">Developer Tools</h1>
+                <p class="text-gray-600 dark:text-gray-400 mb-8">Select a tool to get started or use the sidebar for
+                    navigation.</p>
 
-        <!-- Categories -->
-        <div class="overflow-y-auto flex-1">
-            <div class="p-2">
-                <a href="#"
-                    class="flex items-center rounded-lg p-3 bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-200">
-                    <div class="w-6 mr-3 text-center">
-                        <i class="fas fa-home"></i>
+                <!-- Tool cards grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Text Tools Section -->
+                    <div class="col-span-full">
+                        <h2 class="text-xl font-semibold mb-4">Text Tools</h2>
                     </div>
-                    <span class="font-medium">All Tools</span>
-                </a>
 
-                <!-- Category: Converters -->
-                <div class="mt-2">
-                    <div
-                        class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                        <div class="flex items-center">
-                            <div class="w-6 mr-3 text-center text-blue-500">
-                                <i class="fas fa-exchange-alt"></i>
-                            </div>
-                            <span>Converters</span>
+                    <!-- Text Encoder/Decoder Card -->
+                    <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg p-6 cursor-pointer"
+                        data-tool="text-encoder">
+                        <div class="flex items-center mb-4">
+                            <span
+                                class="bg-blue-100 dark:bg-blue-900 text-blue-500 dark:text-blue-300 p-3 rounded-full mr-4">
+                                <i class="fas fa-font text-xl"></i>
+                            </span>
+                            <h3 class="text-lg font-semibold">Text Encoder/Decoder</h3>
                         </div>
-                        <i class="fas fa-chevron-down text-xs text-gray-500"></i>
+                        <p class="text-gray-600 dark:text-gray-400">Encode or decode text using Base64, URL encoding,
+                            HTML encoding, and more.</p>
                     </div>
-                </div>
 
-                <!-- Category: Encoders/Decoders -->
-                <div class="mt-1">
-                    <div
-                        class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                        <div class="flex items-center">
-                            <div class="w-6 mr-3 text-center text-green-500">
-                                <i class="fas fa-code"></i>
-                            </div>
-                            <span>Encoders / Decoders</span>
-                        </div>
-                        <i class="fas fa-chevron-down text-xs text-gray-500"></i>
-                    </div>
-                </div>
-
-                <!-- Category: Formatters -->
-                <div class="mt-1">
-                    <div
-                        class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                        <div class="flex items-center">
-                            <div class="w-6 mr-3 text-center text-purple-500">
-                                <i class="fas fa-align-left"></i>
-                            </div>
-                            <span>Formatters</span>
-                        </div>
-                        <i class="fas fa-chevron-down text-xs text-gray-500"></i>
-                    </div>
-                </div>
-
-                <!-- Category: Generators -->
-                <div class="mt-1">
-                    <div
-                        class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                        <div class="flex items-center">
-                            <div class="w-6 mr-3 text-center text-yellow-500">
-                                <i class="fas fa-cogs"></i>
-                            </div>
-                            <span>Generators</span>
-                        </div>
-                        <i class="fas fa-chevron-down text-xs text-gray-500"></i>
-                    </div>
-                </div>
-
-                <!-- Category: Graphic -->
-                <div class="mt-1">
-                    <div
-                        class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                        <div class="flex items-center">
-                            <div class="w-6 mr-3 text-center text-red-500">
-                                <i class="fas fa-image"></i>
-                            </div>
-                            <span>Graphic</span>
-                        </div>
-                        <i class="fas fa-chevron-down text-xs text-gray-500"></i>
-                    </div>
-                </div>
-
-                <!-- Category: Testers -->
-                <div class="mt-1">
-                    <div
-                        class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                        <div class="flex items-center">
-                            <div class="w-6 mr-3 text-center text-indigo-500">
-                                <i class="fas fa-vial"></i>
-                            </div>
-                            <span>Testers</span>
-                        </div>
-                        <i class="fas fa-chevron-down text-xs text-gray-500"></i>
-                    </div>
-                </div>
-
-                <!-- Category: Text -->
-                <div class="mt-1">
-                    <div
-                        class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                        <div class="flex items-center">
-                            <div class="w-6 mr-3 text-center text-teal-500">
-                                <i class="fas fa-font"></i>
-                            </div>
-                            <span>Text</span>
-                        </div>
-                        <i class="fas fa-chevron-down text-xs text-gray-500"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer links -->
-        <div class="p-4 border-t border-gray-200 dark:border-gray-700 space-y-2">
-            <a href="#"
-                class="flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
-                <i class="fas fa-heart mr-3 text-pink-500"></i>
-                <span>Support Development</span>
-            </a>
-
-            <a href="#"
-                class="flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
-                <i class="fas fa-puzzle-piece mr-3 text-orange-500"></i>
-                <span>Manage Extensions</span>
-            </a>
-
-            <a href="#"
-                class="flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
-                <i class="fas fa-cog mr-3 text-gray-500"></i>
-                <span>Settings</span>
-            </a>
-        </div>
-    </div>
-
-    <!-- Main content -->
-    <div class="flex-1 flex flex-col overflow-hidden">
-        <!-- Header -->
-        <div class="gradient-bg px-8 py-10 text-white">
-            <h1 class="text-4xl font-bold mb-2">Welcome to DevPro</h1>
-            <p class="text-blue-100 text-sm">v2.1.0</p>
-            <p class="mt-4 max-w-2xl text-blue-100">All the tools you need for development in one place. Select a tool
-                to get started.</p>
-        </div>
-
-        <!-- Tools grid -->
-        <div class="p-6 overflow-y-auto bg-gray-50 dark:bg-gray-900 flex-1">
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                <!-- Base64 Image -->
-                <div class="tool-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm">
-                    <div class="flex p-4">
-                        <div class="flex-shrink-0">
-                            <div
-                                class="w-14 h-14 rounded-lg bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-blue-300 relative">
-                                <i class="fas fa-image text-2xl"></i>
-                                <div
-                                    class="absolute -right-1 -bottom-1 bg-blue-500 text-white text-xs font-bold px-1 rounded">
-                                    64</div>
-                            </div>
-                        </div>
-                        <div class="ml-4 flex-1">
-                            <h3 class="text-lg font-semibold">Base64 Image</h3>
-                            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Encode and decode Base64 image data
-                            </p>
-                        </div>
-                        <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 self-start">
-                            <i class="far fa-star"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Base64 Text -->
-                <div class="tool-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm">
-                    <div class="flex p-4">
-                        <div class="flex-shrink-0">
-                            <div
-                                class="w-14 h-14 rounded-lg bg-green-100 dark:bg-green-900 flex items-center justify-center text-green-600 dark:text-green-300 relative">
-                                <i class="fas fa-file-alt text-2xl"></i>
-                                <div
-                                    class="absolute -right-1 -bottom-1 bg-green-500 text-white text-xs font-bold px-1 rounded">
-                                    64</div>
-                            </div>
-                        </div>
-                        <div class="ml-4 flex-1">
-                            <h3 class="text-lg font-semibold">Base64 Text</h3>
-                            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Encode and decode Base64 text data
-                            </p>
-                        </div>
-                        <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 self-start">
-                            <i class="far fa-star"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Certificate Decoder -->
-                <div class="tool-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm">
-                    <div class="flex p-4">
-                        <div class="flex-shrink-0">
-                            <div
-                                class="w-14 h-14 rounded-lg bg-purple-100 dark:bg-purple-900 flex items-center justify-center text-purple-600 dark:text-purple-300">
-                                <i class="fas fa-certificate text-2xl"></i>
-                            </div>
-                        </div>
-                        <div class="ml-4 flex-1">
-                            <h3 class="text-lg font-semibold">Certificate Decoder</h3>
-                            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Decode and verify certificates</p>
-                        </div>
-                        <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 self-start">
-                            <i class="far fa-star"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Color Blindness Simulator -->
-                <div class="tool-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm">
-                    <div class="flex p-4">
-                        <div class="flex-shrink-0">
-                            <div
-                                class="w-14 h-14 rounded-lg bg-red-100 dark:bg-red-900 flex items-center justify-center text-red-600 dark:text-red-300">
-                                <i class="fas fa-eye text-2xl"></i>
-                            </div>
-                        </div>
-                        <div class="ml-4 flex-1">
-                            <h3 class="text-lg font-semibold">Color Blindness</h3>
-                            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Simulate color blindness on images
-                            </p>
-                        </div>
-                        <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 self-start">
-                            <i class="far fa-star"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Cron Parser -->
-                <div class="tool-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm">
-                    <div class="flex p-4">
-                        <div class="flex-shrink-0">
-                            <div
-                                class="w-14 h-14 rounded-lg bg-yellow-100 dark:bg-yellow-900 flex items-center justify-center text-yellow-600 dark:text-yellow-300">
-                                <i class="fas fa-clock text-2xl"></i>
-                            </div>
-                        </div>
-                        <div class="ml-4 flex-1">
-                            <h3 class="text-lg font-semibold">Cron Parser</h3>
-                            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Parse Cron expressions to scheduled
-                                dates</p>
-                        </div>
-                        <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 self-start">
-                            <i class="far fa-star"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Date Converter -->
-                <div class="tool-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm">
-                    <div class="flex p-4">
-                        <div class="flex-shrink-0">
-                            <div
-                                class="w-14 h-14 rounded-lg bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-600 dark:text-indigo-300">
-                                <i class="fas fa-calendar-alt text-2xl"></i>
-                            </div>
-                        </div>
-                        <div class="ml-4 flex-1">
-                            <h3 class="text-lg font-semibold">Date Converter</h3>
-                            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Convert between date formats</p>
-                        </div>
-                        <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 self-start">
-                            <i class="far fa-star"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- JSON Formatter -->
-                <div class="tool-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm">
-                    <div class="flex p-4">
-                        <div class="flex-shrink-0">
-                            <div
-                                class="w-14 h-14 rounded-lg bg-teal-100 dark:bg-teal-900 flex items-center justify-center text-teal-600 dark:text-teal-300">
-                                <i class="fas fa-code text-2xl"></i>
-                            </div>
-                        </div>
-                        <div class="ml-4 flex-1">
+                    <!-- JSON Formatter Card -->
+                    <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg p-6 cursor-pointer"
+                        data-tool="json-formatter">
+                        <div class="flex items-center mb-4">
+                            <span
+                                class="bg-green-100 dark:bg-green-900 text-green-500 dark:text-green-300 p-3 rounded-full mr-4">
+                                <i class="fas fa-code text-xl"></i>
+                            </span>
                             <h3 class="text-lg font-semibold">JSON Formatter</h3>
-                            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Format and validate JSON data</p>
                         </div>
-                        <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 self-start">
-                            <i class="far fa-star"></i>
-                        </button>
+                        <p class="text-gray-600 dark:text-gray-400">Format, validate, and minify JSON data with syntax
+                            highlighting.</p>
                     </div>
-                </div>
 
-                <!-- Hash Generator -->
-                <div class="tool-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm">
-                    <div class="flex p-4">
-                        <div class="flex-shrink-0">
-                            <div
-                                class="w-14 h-14 rounded-lg bg-pink-100 dark:bg-pink-900 flex items-center justify-center text-pink-600 dark:text-pink-300">
-                                <i class="fas fa-fingerprint text-2xl"></i>
-                            </div>
+                    <!-- Markdown Preview Card -->
+                    <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg p-6 cursor-pointer"
+                        data-tool="markdown-preview">
+                        <div class="flex items-center mb-4">
+                            <span
+                                class="bg-purple-100 dark:bg-purple-900 text-purple-500 dark:text-purple-300 p-3 rounded-full mr-4">
+                                <i class="fab fa-markdown text-xl"></i>
+                            </span>
+                            <h3 class="text-lg font-semibold">Markdown Preview</h3>
                         </div>
-                        <div class="ml-4 flex-1">
+                        <p class="text-gray-600 dark:text-gray-400">Live preview of Markdown with side-by-side editing.
+                        </p>
+                    </div>
+
+                    <!-- Generators Section -->
+                    <div class="col-span-full mt-8">
+                        <h2 class="text-xl font-semibold mb-4">Generators</h2>
+                    </div>
+
+                    <!-- UUID Generator Card -->
+                    <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg p-6 cursor-pointer"
+                        data-tool="uuid-generator">
+                        <div class="flex items-center mb-4">
+                            <span
+                                class="bg-yellow-100 dark:bg-yellow-900 text-yellow-500 dark:text-yellow-300 p-3 rounded-full mr-4">
+                                <i class="fas fa-key text-xl"></i>
+                            </span>
+                            <h3 class="text-lg font-semibold">UUID Generator</h3>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400">Generate random UUIDs in different versions (v1,
+                            v4).</p>
+                    </div>
+
+                    <!-- Lorem Ipsum Generator Card -->
+                    <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg p-6 cursor-pointer"
+                        data-tool="lorem-ipsum">
+                        <div class="flex items-center mb-4">
+                            <span
+                                class="bg-pink-100 dark:bg-pink-900 text-pink-500 dark:text-pink-300 p-3 rounded-full mr-4">
+                                <i class="fas fa-paragraph text-xl"></i>
+                            </span>
+                            <h3 class="text-lg font-semibold">Lorem Ipsum Generator</h3>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400">Generate placeholder text for mockups and designs.
+                        </p>
+                    </div>
+
+                    <!-- Hash Generator Card -->
+                    <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg p-6 cursor-pointer"
+                        data-tool="hash-generator">
+                        <div class="flex items-center mb-4">
+                            <span
+                                class="bg-red-100 dark:bg-red-900 text-red-500 dark:text-red-300 p-3 rounded-full mr-4">
+                                <i class="fas fa-hashtag text-xl"></i>
+                            </span>
                             <h3 class="text-lg font-semibold">Hash Generator</h3>
-                            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Generate multiple hash types</p>
                         </div>
-                        <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 self-start">
-                            <i class="far fa-star"></i>
-                        </button>
+                        <p class="text-gray-600 dark:text-gray-400">Generate MD5, SHA-1, SHA-256 hashes from text input.
+                        </p>
                     </div>
-                </div>
 
-                <!-- Lorem Ipsum -->
-                <div class="tool-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm">
-                    <div class="flex p-4">
-                        <div class="flex-shrink-0">
-                            <div
-                                class="w-14 h-14 rounded-lg bg-orange-100 dark:bg-orange-900 flex items-center justify-center text-orange-600 dark:text-orange-300">
-                                <i class="fas fa-paragraph text-2xl"></i>
-                            </div>
+                    <!-- Converters Section -->
+                    <div class="col-span-full mt-8">
+                        <h2 class="text-xl font-semibold mb-4">Converters</h2>
+                    </div>
+
+                    <!-- Number Base Converter Card -->
+                    <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg p-6 cursor-pointer"
+                        data-tool="number-base">
+                        <div class="flex items-center mb-4">
+                            <span
+                                class="bg-indigo-100 dark:bg-indigo-900 text-indigo-500 dark:text-indigo-300 p-3 rounded-full mr-4">
+                                <i class="fas fa-calculator text-xl"></i>
+                            </span>
+                            <h3 class="text-lg font-semibold">Number Base Converter</h3>
                         </div>
-                        <div class="ml-4 flex-1">
-                            <h3 class="text-lg font-semibold">Lorem Ipsum</h3>
-                            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Generate placeholder text</p>
+                        <p class="text-gray-600 dark:text-gray-400">Convert between binary, octal, decimal, and
+                            hexadecimal.</p>
+                    </div>
+
+                    <!-- CSV/JSON Converter Card -->
+                    <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg p-6 cursor-pointer"
+                        data-tool="csv-json">
+                        <div class="flex items-center mb-4">
+                            <span
+                                class="bg-teal-100 dark:bg-teal-900 text-teal-500 dark:text-teal-300 p-3 rounded-full mr-4">
+                                <i class="fas fa-exchange-alt text-xl"></i>
+                            </span>
+                            <h3 class="text-lg font-semibold">CSV ⟷ JSON Converter</h3>
                         </div>
-                        <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 self-start">
-                            <i class="far fa-star"></i>
-                        </button>
+                        <p class="text-gray-600 dark:text-gray-400">Convert between CSV and JSON formats with preview.
+                        </p>
+                    </div>
+
+                    <!-- Image to Base64 Card -->
+                    <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg p-6 cursor-pointer"
+                        data-tool="img-base64">
+                        <div class="flex items-center mb-4">
+                            <span
+                                class="bg-orange-100 dark:bg-orange-900 text-orange-500 dark:text-orange-300 p-3 rounded-full mr-4">
+                                <i class="fas fa-image text-xl"></i>
+                            </span>
+                            <h3 class="text-lg font-semibold">Image to Base64</h3>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400">Convert images to Base64 string for embedding in CSS
+                            or HTML.</p>
+                    </div>
+
+                    <!-- Formatters Section -->
+                    <div class="col-span-full mt-8">
+                        <h2 class="text-xl font-semibold mb-4">Formatters</h2>
+                    </div>
+
+                    <!-- Code Beautifier Card -->
+                    <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg p-6 cursor-pointer"
+                        data-tool="code-beautifier">
+                        <div class="flex items-center mb-4">
+                            <span
+                                class="bg-blue-100 dark:bg-blue-900 text-blue-500 dark:text-blue-300 p-3 rounded-full mr-4">
+                                <i class="fas fa-code text-xl"></i>
+                            </span>
+                            <h3 class="text-lg font-semibold">Code Beautifier</h3>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400">Format and beautify HTML, CSS, JavaScript with
+                            syntax highlighting.</p>
+                    </div>
+
+                    <!-- Date Formatter Card -->
+                    <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg p-6 cursor-pointer"
+                        data-tool="date-formatter">
+                        <div class="flex items-center mb-4">
+                            <span
+                                class="bg-green-100 dark:bg-green-900 text-green-500 dark:text-green-300 p-3 rounded-full mr-4">
+                                <i class="fas fa-calendar-alt text-xl"></i>
+                            </span>
+                            <h3 class="text-lg font-semibold">Date Formatter</h3>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400">Convert between different date and time formats.</p>
+                    </div>
+
+                    <!-- Color Converter Card -->
+                    <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg p-6 cursor-pointer"
+                        data-tool="color-converter">
+                        <div class="flex items-center mb-4">
+                            <span
+                                class="bg-purple-100 dark:bg-purple-900 text-purple-500 dark:text-purple-300 p-3 rounded-full mr-4">
+                                <i class="fas fa-palette text-xl"></i>
+                            </span>
+                            <h3 class="text-lg font-semibold">Color Converter</h3>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400">Convert between HEX, RGB, HSL, and CMYK color
+                            formats.</p>
+                    </div>
+
+                    <!-- Validators Section -->
+                    <div class="col-span-full mt-8">
+                        <h2 class="text-xl font-semibold mb-4">Validators</h2>
+                    </div>
+
+                    <!-- Email Validator Card -->
+                    <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg p-6 cursor-pointer"
+                        data-tool="email-validator">
+                        <div class="flex items-center mb-4">
+                            <span
+                                class="bg-yellow-100 dark:bg-yellow-900 text-yellow-500 dark:text-yellow-300 p-3 rounded-full mr-4">
+                                <i class="fas fa-envelope text-xl"></i>
+                            </span>
+                            <h3 class="text-lg font-semibold">Email Validator</h3>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400">Validate email addresses against standard rules.</p>
+                    </div>
+
+                    <!-- URL Validator Card -->
+                    <div class="tool-card bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg p-6 cursor-pointer"
+                        data-tool="url-validator">
+                        <div class="flex items-center mb-4">
+                            <span
+                                class="bg-pink-100 dark:bg-pink-900 text-pink-500 dark:text-pink-300 p-3 rounded-full mr-4">
+                                <i class="fas fa-link text-xl"></i>
+                            </span>
+                            <h3 class="text-lg font-semibold">URL Validator</h3>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400">Check if URLs are valid and properly formatted.</p>
                     </div>
                 </div>
+            </div>
+
+            <!-- Tool-specific content areas (initially hidden) -->
+            <div id="tool-content" class="hidden p-6">
+                <!-- Individual tool content will be loaded here dynamically -->
             </div>
         </div>
     </div>
 
+    <!-- Theme toggle button -->
+    <button id="theme-toggle" class="fixed bottom-4 right-4 bg-gray-200 dark:bg-gray-700 p-3 rounded-full shadow-md">
+        <i id="theme-icon" class="fas fa-moon"></i>
+    </button>
+
+    <!-- Simple JavaScript for theme toggle and navigation -->
     <script>
-        // Toggle sidebar categories
-        document.querySelectorAll('.flex.items-center.justify-between.p-3').forEach(item => {
-            item.addEventListener('click', () => {
-                const icon = item.querySelector('.fas.fa-chevron-down');
-                if (icon) {
-                    icon.classList.toggle('fa-chevron-down');
-                    icon.classList.toggle('fa-chevron-up');
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+
+        function toggleDarkMode() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        themeToggle.addEventListener('click', toggleDarkMode);
+
+        // Check for saved theme preference or prefer-color-scheme
+        if (localStorage.getItem('theme') === 'dark' ||
+            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        // Basic navigation (to be expanded with actual tool implementations)
+        // index.html dosyasındaki ilgili JavaScript kodunu değiştirin
+        document.querySelectorAll('.tool-card, .tool-item a').forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+                const toolId = this.dataset.tool || this.getAttribute('href').substring(1);
+                console.log(`Loading tool: ${toolId}`);
+
+                // Text Tools kategorisine ait araçlar için özel işlem
+                if (toolId === 'text-encoder' || toolId === 'json-formatter' || toolId === 'markdown-preview') {
+                    document.getElementById('home-screen').classList.add('hidden');
+                    document.getElementById('tool-content').classList.remove('hidden');
+
+                    // İframe oluştur ve text-tools.html'i yükle
+                    let iframeHTML = `<iframe src="text-tools.html" width="100%" height="800px" frameborder="0"></iframe>`;
+                    document.getElementById('tool-content').innerHTML = iframeHTML;
+
+                    // Eğer spesifik bir araca geçiş yapmak istiyorsak, postMessage kullanabiliriz
+                    const iframe = document.querySelector('#tool-content iframe');
+                    iframe.onload = function () {
+                        iframe.contentWindow.postMessage({
+                            action: 'switchTab',
+                            tab: toolId.replace('text-', '').replace('-preview', '')
+                        }, '*');
+                    };
+                } else {
+                    // Diğer araçlar için normal davranış
+                    document.getElementById('home-screen').classList.add('hidden');
+                    document.getElementById('tool-content').classList.remove('hidden');
+                    document.getElementById('tool-content').innerHTML = `<h1 class="text-2xl font-bold mb-6">${toolId.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</h1>
+            <p>Tool content would be loaded here</p>
+            <button class="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md" onclick="goHome()">Back to Home</button>`;
                 }
             });
         });
-
-        // Handle favorites
-        document.querySelectorAll('.far.fa-star').forEach(star => {
-            star.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                star.classList.toggle('far');
-                star.classList.toggle('fas');
-                star.classList.toggle('text-yellow-500');
-            });
-        });
-
-        // Toggle dark mode (for demo purposes)
-        const toggleDarkMode = () => {
-            document.documentElement.classList.toggle('dark');
-        };
+        
+        function goHome() {
+            document.getElementById('home-screen').classList.remove('hidden');
+            document.getElementById('tool-content').classList.add('hidden');
+        }
     </script>
 </body>
 
