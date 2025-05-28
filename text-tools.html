@@ -401,14 +401,6 @@
             document.getElementById('markdown-preview').innerHTML = '';
         });
 
-        // text-tools.html dosyasının <script> bloğuna aşağıdaki kodu ekleyin
-        // Ana sayfadan gelen mesajları dinle
-        window.addEventListener('message', function (event) {
-            if (event.data && event.data.action === 'switchTab') {
-                // Belirtilen sekmeye geç
-                switchTab(event.data.tab);
-            }
-        });
     </script>
 </body>
 

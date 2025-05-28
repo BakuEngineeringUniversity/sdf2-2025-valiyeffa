@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevToys Converters</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+        }
+
+        .converter-tab {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .converter-tab.active {
+            background-color: rgb(59 130 246);
+            color: white;
+        }
+
+        .converter-tab:not(.active):hover {
+            background-color: rgb(229 231 235);
+        }
+
+        .dark .converter-tab:not(.active):hover {
+            background-color: rgb(55 65 81);
+        }
+
+        .copy-success {
+            animation: fadeInOut 2s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+    <div class="container mx-auto p-6">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-2xl font-bold flex items-center">
+                <i class="fas fa-exchange-alt mr-3 text-blue-500"></i>
+                Converters
+            </h1>
+            <button onclick="goHome()" class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md">
+                <i class="fas fa-home mr-2"></i>Back to Home
+            </button>
+        </div>
+
+        <!-- Converter Tabs -->
+        <div class="flex flex-wrap gap-2 mb-6 border-b border-gray-200 dark:border-gray-700">
+            <button class="converter-tab px-4 py-2 rounded-t-lg active" data-tab="number-base">
+                <i class="fas fa-calculator mr-2"></i>Number Base
+            </button>
+            <button class="converter-tab px-4 py-2 rounded-t-lg" data-tab="csv-json">
+                <i class="fas fa-exchange-alt mr-2"></i>CSV ⟷ JSON
+            </button>
+            <button class="converter-tab px-4 py-2 rounded-t-lg" data-tab="img-base64">
+                <i class="fas fa-image mr-2"></i>Image to Base64
+            </button>
+        </div>
+
+        <!-- Number Base Converter -->
+        <div id="number-base-content" class="converter-content">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold mb-4">Number Base Converter</h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-6">Convert numbers between different bases (Binary, Octal,
+                    Decimal, Hexadecimal)</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Input Number</label>
+                        <input type="text" id="number-input" placeholder="Enter a number"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700">
+                        <div class="mt-2">
+                            <label class="block text-sm font-medium mb-1">Input Base</label>
+                            <select id="input-base"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700">
+                                <option value="10">Decimal (10)</option>
+                                <option value="2">Binary (2)</option>
+                                <option value="8">Octal (8)</option>
+                                <option value="16">Hexadecimal (16)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Converted Results</label>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
+                                <div>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400">Binary:</span>
+                                    <span id="binary-result" class="ml-2 font-mono">0</span>
+                                </div>
+                                <button onclick="copyToClipboard('binary-result')"
+                                    class="text-blue-500 hover:text-blue-600">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
+                                <div>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400">Octal:</span>
+                                    <span id="octal-result" class="ml-2 font-mono">0</span>
+                                </div>
+                                <button onclick="copyToClipboard('octal-result')"
+                                    class="text-blue-500 hover:text-blue-600">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
+                                <div>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400">Decimal:</span>
+                                    <span id="decimal-result" class="ml-2 font-mono">0</span>
+                                </div>
+                                <button onclick="copyToClipboard('decimal-result')"
+                                    class="text-blue-500 hover:text-blue-600">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
+                                <div>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400">Hexadecimal:</span>
+                                    <span id="hex-result" class="ml-2 font-mono">0</span>
+                                </div>
+                                <button onclick="copyToClipboard('hex-result')"
+                                    class="text-blue-500 hover:text-blue-600">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CSV JSON Converter -->
+        <div id="csv-json-content" class="converter-content hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold mb-4">CSV ⟷ JSON Converter</h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-6">Convert between CSV and JSON formats with preview</p>
+
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <button id="csv-to-json-btn" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
+                        onclick="switchConversionMode('csv-to-json')">
+                        CSV to JSON
+                    </button>
+                    <button id="json-to-csv-btn"
+                        class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md"
+                        onclick="switchConversionMode('json-to-csv')">
+                        JSON to CSV
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="text-sm font-medium" id="input-label">CSV Input</label>
+                            <button onclick="clearInput()" class="text-sm text-red-500 hover:text-red-600">
+                                <i class="fas fa-trash mr-1"></i>Clear
+                            </button>
+                        </div>
+                        <textarea id="csv-json-input" rows="15" placeholder="Paste your CSV data here..."
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 font-mono text-sm"></textarea>
+
+                        <div id="csv-options" class="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-md">
+                            <h3 class="text-sm font-medium mb-2">CSV Options</h3>
+                            <div class="flex flex-wrap gap-4">
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="has-header" checked class="mr-2">
+                                    <span class="text-sm">Has Header</span>
+                                </label>
+                                <div class="flex items-center">
+                                    <label class="text-sm mr-2">Delimiter:</label>
+                                    <select id="csv-delimiter"
+                                        class="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-600 text-sm">
+                                        <option value=",">Comma (,)</option>
+                                        <option value=";">Semicolon (;)</option>
+                                        <option value="\t">Tab</option>
+                                        <option value="|">Pipe (|)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="text-sm font-medium" id="output-label">JSON Output</label>
+                            <button onclick="copyToClipboard('csv-json-output')"
+                                class="text-blue-500 hover:text-blue-600">
+                                <i class="fas fa-copy mr-1"></i>Copy
+                            </button>
+                        </div>
+                        <textarea id="csv-json-output" rows="15" readonly
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 font-mono text-sm"></textarea>
+
+                        <div class="mt-4 flex gap-2">
+                            <button onclick="downloadResult('json')"
+                                class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md text-sm">
+                                <i class="fas fa-download mr-1"></i>Download JSON
+                            </button>
+                            <button onclick="downloadResult('csv')"
+                                class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md text-sm">
+                                <i class="fas fa-download mr-1"></i>Download CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image to Base64 Converter -->
+        <div id="img-base64-content" class="converter-content hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold mb-4">Image to Base64 Converter</h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-6">Convert images to Base64 string for embedding in CSS or
+                    HTML</p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Upload Image</label>
+                        <div
+                            class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center">
+                            <input type="file" id="image-input" accept="image/*" class="hidden"
+                                onchange="handleImageUpload(event)">
+                            <div id="upload-area" onclick="document.getElementById('image-input').click()"
+                                class="cursor-pointer">
+                                <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                                <p class="text-gray-500 dark:text-gray-400">Click to upload image</p>
+                                <p class="text-sm text-gray-400 mt-2">Supports: PNG, JPG, GIF, SVG</p>
+                            </div>
+                        </div>
+
+                        <div id="image-preview" class="mt-4 hidden">
+                            <h3 class="text-sm font-medium mb-2">Preview</h3>
+                            <div
+                                class="border border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-700">
+                                <img id="preview-img" src="" alt="Preview" class="max-w-full max-h-64 mx-auto rounded">
+                                <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                    <div>Size: <span id="image-size"></span></div>
+                                    <div>Type: <span id="image-type"></span></div>
+                                    <div>Dimensions: <span id="image-dimensions"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="text-sm font-medium">Base64 Output</label>
+                            <button onclick="copyToClipboard('base64-output')"
+                                class="text-blue-500 hover:text-blue-600">
+                                <i class="fas fa-copy mr-1"></i>Copy
+                            </button>
+                        </div>
+                        <textarea id="base64-output" rows="15" readonly
+                            placeholder="Base64 encoded image will appear here..."
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 font-mono text-sm"></textarea>
+
+                        <div class="mt-4">
+                            <h3 class="text-sm font-medium mb-2">Usage Examples</h3>
+                            <div class="space-y-2">
+                                <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
+                                    <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">HTML:</div>
+                                    <code id="html-example"
+                                        class="text-xs break-all">&lt;img src="" alt="Image"&gt;</code>
+                                </div>
+                                <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
+                                    <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">CSS:</div>
+                                    <code id="css-example" class="text-xs break-all">background-image: url('');</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copy Success Notification -->
+    <div id="copy-notification"
+        class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg hidden copy-success">
+        <i class="fas fa-check mr-2"></i>Copied to clipboard!
+    </div>
+
+    <script>
+        // Theme detection
+        if (localStorage.getItem('theme') === 'dark' ||
+            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Hide all content
+            document.querySelectorAll('.converter-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Remove active class from all tabs
+            document.querySelectorAll('.converter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected content and activate tab
+            document.getElementById(tabName + '-content').classList.remove('hidden');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+        }
+
+        // Add click listeners to tabs
+        document.querySelectorAll('.converter-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                switchTab(tab.dataset.tab);
+            });
+        });
+
+        // Number Base Converter
+        function convertNumber() {
+            const input = document.getElementById('number-input').value.trim();
+            const inputBase = parseInt(document.getElementById('input-base').value);
+
+            if (!input) {
+                resetResults();
+                return;
+            }
+
+            try {
+                const decimal = parseInt(input, inputBase);
+
+                if (isNaN(decimal)) {
+                    resetResults();
+                    return;
+                }
+
+                document.getElementById('binary-result').textContent = decimal.toString(2);
+                document.getElementById('octal-result').textContent = decimal.toString(8);
+                document.getElementById('decimal-result').textContent = decimal.toString(10);
+                document.getElementById('hex-result').textContent = decimal.toString(16).toUpperCase();
+
+            } catch (error) {
+                resetResults();
+            }
+        }
+
+        function resetResults() {
+            document.getElementById('binary-result').textContent = 'Invalid';
+            document.getElementById('octal-result').textContent = 'Invalid';
+            document.getElementById('decimal-result').textContent = 'Invalid';
+            document.getElementById('hex-result').textContent = 'Invalid';
+        }
+
+        // Event listeners for number converter
+        document.getElementById('number-input').addEventListener('input', convertNumber);
+        document.getElementById('input-base').addEventListener('change', convertNumber);
+
+        // CSV/JSON Converter
+        let conversionMode = 'csv-to-json';
+
+        function switchConversionMode(mode) {
+            conversionMode = mode;
+
+            const csvBtn = document.getElementById('csv-to-json-btn');
+            const jsonBtn = document.getElementById('json-to-csv-btn');
+            const inputLabel = document.getElementById('input-label');
+            const outputLabel = document.getElementById('output-label');
+            const input = document.getElementById('csv-json-input');
+            const csvOptions = document.getElementById('csv-options');
+
+            if (mode === 'csv-to-json') {
+                csvBtn.className = 'px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md';
+                jsonBtn.className = 'px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md';
+                inputLabel.textContent = 'CSV Input';
+                outputLabel.textContent = 'JSON Output';
+                input.placeholder = 'Paste your CSV data here...';
+                csvOptions.classList.remove('hidden');
+            } else {
+                jsonBtn.className = 'px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md';
+                csvBtn.className = 'px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md';
+                inputLabel.textContent = 'JSON Input';
+                outputLabel.textContent = 'CSV Output';
+                input.placeholder = 'Paste your JSON data here...';
+                csvOptions.classList.add('hidden');
+            }
+
+            convertCsvJson();
+        }
+
+        function convertCsvJson() {
+            const input = document.getElementById('csv-json-input').value.trim();
+            const output = document.getElementById('csv-json-output');
+
+            if (!input) {
+                output.value = '';
+                return;
+            }
+
+            try {
+                if (conversionMode === 'csv-to-json') {
+                    const result = csvToJson(input);
+                    output.value = JSON.stringify(result, null, 2);
+                } else {
+                    const result = jsonToCsv(JSON.parse(input));
+                    output.value = result;
+                }
+            } catch (error) {
+                output.value = 'Error: Invalid input format';
+            }
+        }
+
+        function csvToJson(csv) {
+            const delimiter = document.getElementById('csv-delimiter').value;
+            const hasHeader = document.getElementById('has-header').checked;
+
+            const lines = csv.split('\n').filter(line => line.trim());
+            if (lines.length === 0) return [];
+
+            const result = [];
+            const headers = hasHeader ? lines[0].split(delimiter).map(h => h.trim()) : null;
+            const startIndex = hasHeader ? 1 : 0;
+
+            for (let i = startIndex; i < lines.length; i++) {
+                const values = lines[i].split(delimiter).map(v => v.trim());
+
+                if (hasHeader && headers) {
+                    const obj = {};
+                    headers.forEach((header, index) => {
+                        obj[header] = values[index] || '';
+                    });
+                    result.push(obj);
+                } else {
+                    result.push(values);
+                }
+            }
+
+            return result;
+        }
+
+        function jsonToCsv(json) {
+            if (!Array.isArray(json) || json.length === 0) {
+                throw new Error('Invalid JSON array');
+            }
+
+            const delimiter = document.getElementById('csv-delimiter').value;
+
+            if (typeof json[0] === 'object' && json[0] !== null) {
+                const headers = Object.keys(json[0]);
+                const csvRows = [headers.join(delimiter)];
+
+                json.forEach(obj => {
+                    const values = headers.map(header => obj[header] || '');
+                    csvRows.push(values.join(delimiter));
+                });
+
+                return csvRows.join('\n');
+            } else {
+                return json.map(row => Array.isArray(row) ? row.join(delimiter) : row).join('\n');
+            }
+        }
+
+        // Event listeners for CSV/JSON converter
+        document.getElementById('csv-json-input').addEventListener('input', convertCsvJson);
+        document.getElementById('has-header').addEventListener('change', convertCsvJson);
+        document.getElementById('csv-delimiter').addEventListener('change', convertCsvJson);
+
+        function clearInput() {
+            document.getElementById('csv-json-input').value = '';
+            document.getElementById('csv-json-output').value = '';
+        }
+
+        // Image to Base64 Converter
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const base64 = e.target.result;
+
+                // Show preview
+                const preview = document.getElementById('image-preview');
+                const previewImg = document.getElementById('preview-img');
+
+                previewImg.src = base64;
+                preview.classList.remove('hidden');
+
+                // Update image info
+                document.getElementById('image-size').textContent = formatFileSize(file.size);
+                document.getElementById('image-type').textContent = file.type;
+
+                // Get image dimensions
+                const img = new Image();
+                img.onload = function () {
+                    document.getElementById('image-dimensions').textContent = `${this.width} × ${this.height}`;
+                };
+                img.src = base64;
+
+                // Set base64 output
+                document.getElementById('base64-output').value = base64;
+
+                // Update usage examples
+                document.getElementById('html-example').textContent = `<img src="${base64}" alt="Image">`;
+                document.getElementById('css-example').textContent = `background-image: url('${base64}');`;
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Utility functions
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent || element.value;
+
+            navigator.clipboard.writeText(text).then(() => {
+                showCopyNotification();
+            });
+        }
+
+        function showCopyNotification() {
+            const notification = document.getElementById('copy-notification');
+            notification.classList.remove('hidden');
+            setTimeout(() => {
+                notification.classList.add('hidden');
+            }, 2000);
+        }
+
+        function downloadResult(type) {
+            const output = document.getElementById('csv-json-output').value;
+            if (!output) return;
+
+            const filename = type === 'json' ? 'converted.json' : 'converted.csv';
+            const contentType = type === 'json' ? 'application/json' : 'text/csv';
+
+            const blob = new Blob([output], { type: contentType });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+
+            URL.revokeObjectURL(url);
+        }
+
+        function goHome() {
+            if (window.parent !== window) {
+                window.parent.postMessage({ action: 'goHome' }, '*');
+            }
+        }
+
+        // Listen for messages from parent window
+        window.addEventListener('message', function (event) {
+            if (event.data.action === 'switchTab') {
+                switchTab(event.data.tab);
+            }
+        });
+    </script>
+</body>
+
+</html>
